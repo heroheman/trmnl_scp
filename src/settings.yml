@@ -47,7 +47,7 @@ custom_fields:
 - keyname: show_procedures
   field_type: select
   name: Show Special Containment Procedures
-  description: Display the Special Containment Procedures section
+  description: Display the Special Containment Procedures section. Note, this might not work, as it depends on the data source.
   options:
   - 'Yes': 'true'
   - 'No': 'false'
