@@ -1,0 +1,15 @@
+.vercel
+node_modules
+.code-workspace
+*.code-workspace
+_build/
+# Ignore build artifacts
+dist/
+build/
+# Ignore node_modules
+node_modules/
+# Ignore log files
+*.log
+# macos 
+.DS_Store
+/bin
