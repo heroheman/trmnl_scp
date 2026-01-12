@@ -1,0 +1,49 @@
+<div class="layout layout--col gap">
+  {% assign scp = data %}
+  {% assign show_image = trmnl.plugin_settings.custom_fields_values.show_image %}
+  {% assign has_image = false %}
+  
+  {% comment %} Extract Object Class from tags {% endcomment %}
+  {% render 'extract_object_class', tags: scp.tags %}
+  {% assign object_class_extracted = rendered_content | strip %}
+  
+  {% comment %} Check if SCP has images {% endcomment %}
+  {% if scp.images and scp.images.size > 0 %}
+    {% assign first_image = scp.images | first %}
+    {% if first_image and first_image != "" %}
+      {% assign has_image = true %}
+    {% endif %}
+  {% endif %}
+  
+  <div class="content">
+    {% if show_image == 'true' and has_image %}
+      {% render 'scp_item_with_image',
+        title: scp.scp,
+        title_size: 'title--medium',
+        title_clamp: '2',
+        object_class: object_class_extracted,
+        label_size: 'label--small',
+        description: scp.raw_content,
+        description_clamp: '4',
+        image: first_image
+      %}
+    {% else %}
+      {% render 'scp_item_no_image',
+        title: scp.scp,
+        title_size: 'title--large',
+        title_clamp: '2',
+        object_class: object_class_extracted,
+        label_size: 'label--medium',
+        description: scp.raw_content,
+        description_clamp: '6'
+      %}
+    {% endif %}
+  </div>
+</div>
+
+{% render 'scp_footer', 
+  scp_number: scp.scp,
+  min: trmnl.plugin_settings.custom_fields_values.min,
+  max: trmnl.plugin_settings.custom_fields_values.max
+%}
+

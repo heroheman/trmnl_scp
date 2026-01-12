@@ -1,0 +1,48 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://v0-scp-api.vercel.app/api/scp/items/random?{% if min and min != "" %}min={{ min }}&{% endif %}{% if max and max != "" %}max={{ max }}&{% endif %}{% if has_images and has_images != "" %}hasImages={{ has_images }}{% endif %}&exclude=history
+polling_headers: ''
+polling_body: 
+custom_fields:
+- keyname: author_bio
+  name: About This Plugin
+  field_type: author_bio
+  description: v1.0.0 - Displays a random SCP Foundation item with object class, description, and optional cover image.
+  github_url: https://github.com/heroheman/trmnl_scp
+  email_address: moin@flore.nz
+- keyname: min
+  field_type: number
+  name: Minimum SCP Number
+  description: Filter random selection by minimum SCP number (e.g., 313 for SCP-313)
+  optional: true
+  placeholder: '1'
+- keyname: max
+  field_type: number
+  name: Maximum SCP Number
+  description: Filter random selection by maximum SCP number (e.g., 3245 for SCP-3245)
+  optional: true
+  placeholder: '8999'
+- keyname: has_images
+  field_type: select
+  name: Filter by Images
+  description: Only show SCPs with or without cover images
+  optional: true
+  options:
+  - All SCPs: ''
+  - Only with Images: 'true'
+  - Only without Images: 'false'
+  default: ''
+- keyname: show_image
+  field_type: select
+  name: Show Cover Image
+  description: Display cover image in full view (when available)
+  options:
+  - 'Yes': 'true'
+  - 'No': 'false'
+  default: 'true'
+name: SCP Foundation
+refresh_interval: 1440

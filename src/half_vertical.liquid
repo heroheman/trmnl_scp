@@ -1,0 +1,26 @@
+<div class="layout layout--col gap">
+  {% assign scp = data %}
+  
+  {% comment %} Extract Object Class from tags {% endcomment %}
+  {% render 'extract_object_class', tags: scp.tags %}
+  {% assign object_class_extracted = rendered_content | strip %}
+  
+  <div class="content">
+    {% render 'scp_item_no_image',
+      title: scp.scp,
+      title_size: 'title--large',
+      title_clamp: '2',
+      object_class: object_class_extracted,
+      label_size: 'label--medium',
+      description: scp.raw_content,
+      description_clamp: '8'
+    %}
+  </div>
+</div>
+
+{% render 'scp_footer', 
+  scp_number: scp.scp,
+  min: trmnl.plugin_settings.custom_fields_values.min,
+  max: trmnl.plugin_settings.custom_fields_values.max
+%}
+

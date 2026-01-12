@@ -1,0 +1,108 @@
+<!-- SCP Foundation Plugin Shared Templates -->
+
+<style>
+  .scp-image { 
+    object-fit: cover; 
+    width: 100%; 
+    height: 100%;
+  }
+  
+  .scp-split {
+    display: flex;
+    flex-direction: row;
+    gap: var(--gap-medium);
+  }
+  
+  .scp-image-container {
+    flex: 0 0 50%;
+    height: 100%;
+  }
+  
+  .scp-content {
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+  }
+  
+  .scp-full-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+  }
+  
+  .object-class {
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+</style>
+
+{% comment %} === EXTRACT OBJECT CLASS FROM TAGS === {% endcomment %}
+{% template extract_object_class %}
+  {% assign object_class_found = "" %}
+  {% assign known_classes = "safe,euclid,keter,thaumiel,apollyon,neutralized,decommissioned,pending,explained" | split: "," %}
+  
+  {% for tag in tags %}
+    {% if known_classes contains tag %}
+      {% assign object_class_found = tag %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+  {% comment %} Check for esoteric-class {% endcomment %}
+  {% if object_class_found == "" %}
+    {% for tag in tags %}
+      {% if tag contains "esoteric-class" %}
+        {% assign object_class_found = "Esoteric" %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  
+  {% comment %} {{ object_class_found }} {% endcomment %}
+{% endtemplate %}
+
+{% comment %} === SCP ITEM TEMPLATE WITH IMAGE === {% endcomment %}
+{% template scp_item_with_image %}
+  <div class="scp-split">
+    <div class="scp-image-container">
+      <img class="scp-image image-dither" src="{{ image }}" alt="{{ title }}">
+    </div>
+    <div class="scp-content">
+      <span class="title {{ title_size }}" data-clamp="{{ title_clamp }}">{{ title }}</span>
+      {% if object_class and object_class != "" %}
+        <span class="label label--gray {{ label_size }}">Object Class: <span class="object-class">{{ object_class }}</span></span>
+      {% endif %}
+      {% if description %}
+        <span class="description" data-clamp="{{ description_clamp }}">{{ description }}</span>
+      {% endif %}
+    </div>
+  </div>
+{% endtemplate %}
+
+{% comment %} === SCP ITEM TEMPLATE WITHOUT IMAGE === {% endcomment %}
+{% template scp_item_no_image %}
+  <div class="scp-full-content">
+    <span class="title {{ title_size }}" data-clamp="{{ title_clamp }}">{{ title }}</span>
+    {% if object_class and object_class != "" %}
+      <span class="label label--gray {{ label_size }}">Object Class: <span class="object-class">{{ object_class }}</span></span>
+    {% endif %}
+    {% if description %}
+      <span class="description" data-clamp="{{ description_clamp }}">{{ description }}</span>
+    {% endif %}
+  </div>
+{% endtemplate %}
+
+{% comment %} === FOOTER TEMPLATE === {% endcomment %}
+{% template scp_footer %}
+  <div class="title_bar">
+    <span class="title">SCP FOUNDATION</span>
+    <span class="instance">
+      {% if scp_number %}{{ scp_number }}{% else %}Random SCP{% endif %}
+      {% if min or max %}
+        {% if min and max %} • Range: {{ min }}-{{ max }}{% elsif min %} • Min: {{ min }}{% elsif max %} • Max: {{ max }}{% endif %}
+      {% endif %}
+    </span>
+  </div>
+{% endtemplate %}
+

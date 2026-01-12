@@ -1,0 +1,20 @@
+# TRMNLP configuration
+# {{ env.VARIABLE }} interpolation is available here
+---
+# auto-reload when files change (`watch: false` to disable)
+watch:
+  - .trmnlp.yml
+  - src
+
+
+# override variables
+variables:
+  trmnl: {}
+
+# values of custom fields (defined in src/settings.yml)
+custom_fields: {
+  min: 1,
+  max: 100,
+  has_images: true,
+  show_image: true
+}
