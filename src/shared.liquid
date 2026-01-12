@@ -100,9 +100,7 @@
     <span class="title">SCP FOUNDATION</span>
     <span class="instance">
       {% if scp_number %}{{ scp_number }}{% else %}Random SCP{% endif %}
-      {% if min or max %}
-        {% if min and max %} • Range: {{ min }}-{{ max }}{% elsif min %} • Min: {{ min }}{% elsif max %} • Max: {{ max }}{% endif %}
-      {% endif %}
+      {% if object_class and object_class != "" %} | {{ object_class | capitalize }}{% endif %}
     </span>
   </div>
 {% endtemplate %}
