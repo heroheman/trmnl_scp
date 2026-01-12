@@ -7,30 +7,6 @@
     height: 100%;
   }
   
-  .scp-split {
-    display: flex;
-    flex-direction: row;
-    gap: var(--gap-medium);
-  }
-  
-  .scp-image-container {
-    flex: 0 0 50%;
-    height: 100%;
-  }
-  
-  .scp-content {
-    flex: 0 0 50%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-small);
-  }
-  
-  .scp-full-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-small);
-  }
-  
   .object-class {
     font-weight: 600;
     text-transform: uppercase;
@@ -64,11 +40,11 @@
 
 {% comment %} === SCP ITEM TEMPLATE WITH IMAGE === {% endcomment %}
 {% template scp_item_with_image %}
-  <div class="scp-split">
-    <div class="scp-image-container">
+  <div class="grid grid--cols-2 gap">
+    <div class="h--full">
       <img class="scp-image image-dither" src="{{ image }}" alt="{{ title }}">
     </div>
-    <div class="scp-content">
+    <div class="flex flex--col gap--small">
       <span class="title {{ title_size }}" data-clamp="{{ title_clamp }}">{{ title }}</span>
       {% if object_class and object_class != "" %}
         <span class="label label--gray {{ label_size }}">Object Class: <span class="object-class">{{ object_class }}</span></span>
@@ -82,7 +58,7 @@
 
 {% comment %} === SCP ITEM TEMPLATE WITHOUT IMAGE === {% endcomment %}
 {% template scp_item_no_image %}
-  <div class="scp-full-content">
+  <div class="flex flex--col gap--small">
     <span class="title {{ title_size }}" data-clamp="{{ title_clamp }}">{{ title }}</span>
     {% if object_class and object_class != "" %}
       <span class="label label--gray {{ label_size }}">Object Class: <span class="object-class">{{ object_class }}</span></span>
