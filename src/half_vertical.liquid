@@ -2,8 +2,40 @@
   {% assign scp = data %}
   
   {% comment %} Extract Object Class from tags {% endcomment %}
-  {% render 'extract_object_class', tags: scp.tags %}
-  {% assign object_class_extracted = rendered_content | strip %}
+  {% assign object_class_extracted = "" %}
+  {% assign known_classes = "safe,euclid,keter,thaumiel,apollyon,neutralized,decommissioned,pending,explained" | split: "," %}
+  {% for tag in scp.tags %}
+    {% if known_classes contains tag %}
+      {% assign object_class_extracted = tag %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% if object_class_extracted == "" %}
+    {% for tag in scp.tags %}
+      {% if tag contains "esoteric-class" %}
+        {% assign object_class_extracted = "Esoteric" %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  
+  {% comment %} Extract Special Containment Procedures {% endcomment %}
+  {% assign procedures_extracted = "" %}
+  {% if scp.raw_content contains "<strong>Special Containment Procedures:</strong>" %}
+    {% assign after_procedures = scp.raw_content | split: "<strong>Special Containment Procedures:</strong>" | last %}
+    {% if after_procedures contains "<strong>Description:</strong>" %}
+      {% assign procedures_extracted = after_procedures | split: "<strong>Description:</strong>" | first | strip_html | strip %}
+    {% elsif after_procedures contains "<strong>Description</strong>" %}
+      {% assign procedures_extracted = after_procedures | split: "<strong>Description</strong>" | first | strip_html | strip %}
+    {% endif %}
+  {% endif %}
+  
+  {% comment %} Extract Description {% endcomment %}
+  {% assign description_extracted = "" %}
+  {% if scp.raw_content contains "<strong>Description:</strong>" %}
+    {% assign after_description = scp.raw_content | split: "<strong>Description:</strong>" | last | strip_html | strip %}
+    {% assign description_extracted = after_description %}
+  {% endif %}
   
   <div class="content">
     {% render 'scp_item_no_image',
@@ -11,9 +43,10 @@
       title_size: 'title--large',
       title_clamp: '2',
       object_class: object_class_extracted,
-      label_size: 'label--medium',
-      description: scp.raw_content,
-      description_clamp: '8'
+      show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures,
+      procedures: procedures_extracted,
+      description: description_extracted,
+      content_clamp: '14'
     %}
   </div>
 </div>

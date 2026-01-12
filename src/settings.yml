@@ -44,5 +44,13 @@ custom_fields:
   - 'Yes': 'true'
   - 'No': 'false'
   default: 'true'
+- keyname: show_procedures
+  field_type: select
+  name: Show Special Containment Procedures
+  description: Display the Special Containment Procedures section
+  options:
+  - 'Yes': 'true'
+  - 'No': 'false'
+  default: 'false'
 name: SCP Foundation
 refresh_interval: 1440

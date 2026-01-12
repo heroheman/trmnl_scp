@@ -11,6 +11,10 @@
     font-weight: 600;
     text-transform: uppercase;
   }
+  
+  .scp-content {
+    white-space: pre-line;
+  }
 </style>
 
 {% comment %} === EXTRACT OBJECT CLASS FROM TAGS === {% endcomment %}
@@ -38,20 +42,43 @@
   {% comment %} {{ object_class_found }} {% endcomment %}
 {% endtemplate %}
 
+{% comment %} === EXTRACT SPECIAL CONTAINMENT PROCEDURES === {% endcomment %}
+{% template extract_procedures %}
+  {% comment %} Extract content between Special Containment Procedures and Description {% endcomment %}
+  {% if raw_content contains "<strong>Special Containment Procedures:</strong>" %}
+    {% assign after_procedures = raw_content | split: "<strong>Special Containment Procedures:</strong>" | last %}
+    
+    {% if after_procedures contains "<strong>Description:</strong>" %}
+      {% assign procedures_text = after_procedures | split: "<strong>Description:</strong>" | first %}
+    {% elsif after_procedures contains "<strong>Description</strong>" %}
+      {% assign procedures_text = after_procedures | split: "<strong>Description</strong>" | first %}
+    {% else %}
+      {% assign procedures_text = after_procedures %}
+    {% endif %}
+    
+    {% comment %} Clean up HTML tags and extra whitespace {% endcomment %}
+    {{ procedures_text | strip_html | strip }}
+  {% endif %}
+{% endtemplate %}
+
 {% comment %} === SCP ITEM TEMPLATE WITH IMAGE === {% endcomment %}
 {% template scp_item_with_image %}
-  <div class="grid grid--cols-2 gap">
-    <div class="h--full">
-      <img class="scp-image image-dither" src="{{ image }}" alt="{{ title }}">
+  <div class="grid grid--cols-5 gap">
+    <div class="col--span-2">
+      <div class="h--full">
+        <img class="scp-image image-dither" src="{{ image }}" alt="{{ title }}">
+      </div>
     </div>
-    <div class="flex flex--col gap--small">
-      <span class="title {{ title_size }}" data-clamp="{{ title_clamp }}">{{ title }}</span>
-      {% if object_class and object_class != "" %}
-        <span class="label label--gray {{ label_size }}">Object Class: <span class="object-class">{{ object_class }}</span></span>
-      {% endif %}
-      {% if description %}
-        <span class="description" data-clamp="{{ description_clamp }}">{{ description }}</span>
-      {% endif %}
+    <div class="col--span-3">
+      <div class="flex flex--col gap--small">
+        <span class="title {{ title_size }} text--left" data-clamp="{{ title_clamp }}">{{ title }}</span>
+        {% if object_class and object_class != "" %}
+          <span class="text--small text--left">Object Class: <span class="object-class">{{ object_class }}</span></span>
+        {% endif %}
+        <span class="description scp-content" data-clamp="{{ content_clamp }}">
+          {% if show_procedures != 'false' and procedures and procedures != "" %}<strong>Special Containment Procedures:</strong> {{ procedures | newline_to_br }} {% endif %}{% if description and description != "" %}<strong>Description:</strong> {{ description | newline_to_br }}{% endif %}
+        </span>
+      </div>
     </div>
   </div>
 {% endtemplate %}
@@ -59,13 +86,13 @@
 {% comment %} === SCP ITEM TEMPLATE WITHOUT IMAGE === {% endcomment %}
 {% template scp_item_no_image %}
   <div class="flex flex--col gap--small">
-    <span class="title {{ title_size }}" data-clamp="{{ title_clamp }}">{{ title }}</span>
+    <span class="title {{ title_size }} text--left" data-clamp="{{ title_clamp }}">{{ title }}</span>
     {% if object_class and object_class != "" %}
-      <span class="label label--gray {{ label_size }}">Object Class: <span class="object-class">{{ object_class }}</span></span>
+      <span class="text--small text--left">Object Class: <span class="object-class">{{ object_class }}</span></span>
     {% endif %}
-    {% if description %}
-      <span class="description" data-clamp="{{ description_clamp }}">{{ description }}</span>
-    {% endif %}
+    <span class="description scp-content" data-clamp="{{ content_clamp }}">
+      {% if show_procedures != 'false' and procedures and procedures != "" %}<strong>Special Containment Procedures:</strong> {{ procedures | newline_to_br }} {% endif %}{% if description and description != "" %}<strong>Description:</strong> {{ description | newline_to_br }}{% endif %}
+    </span>
   </div>
 {% endtemplate %}
 
