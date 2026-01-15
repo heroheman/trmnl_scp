@@ -17,5 +17,5 @@ custom_fields: {
   max: 5000,
   has_images: true,
   show_image: true,
-  show_procedures: true
+  show_procedures: false
 }

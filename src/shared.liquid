@@ -11,6 +11,10 @@
     font-weight: 600;
     text-transform: uppercase;
   }
+
+  strong {
+    font-weight: 700;
+  }
 </style>
 
 {% comment %} === EXTRACT OBJECT CLASS FROM TAGS === {% endcomment %}
@@ -69,13 +73,17 @@
         {% endif %}
       </div>
     </div>
-    <div class="col--span-3">
-      <div class="richtext richtext--left">
-        <div class="content content--left text--left" data-content-limiter="true">
-            {% if show_procedures != 'false' and procedures and procedures != "" %}<p data-pixel-perfect="true"><strong>Special Containment Procedures:</strong> {{ procedures | newline_to_br }}</p>
-            {% endif %}
-            {% if description and description != "" %}<p data-pixel-perfect="true"><strong>Description:</strong> {{ description | newline_to_br }}</p>{% endif %}
-        </div>
+    <div class="col--span-3 h--full">
+      <div class="content content--left text--left h--full" data-content-limiter="true">
+        {% if show_procedures != 'false' and procedures and procedures != "" %}
+          <p data-pixel-perfect="true">
+            <strong>Special Containment Procedures:</strong> 
+            {{ procedures | replace: "\n\n\n\n\n", "\n" | replace: "\n\n\n\n", "\n" | replace: "\n\n\n", "\n" | newline_to_br }}</p>
+        {% endif %}
+        {% if description and description != "" %}
+          <p>
+            <strong>Description:</strong> {{ description |  strip_html | strip_newlines  }}</p>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -83,14 +91,13 @@
 
 {% comment %} === SCP ITEM TEMPLATE WITHOUT IMAGE === {% endcomment %}
 {% template scp_item_no_image %}
-  <div class="richtext richtext--left">
-    <div class="content content--left text--left" data-content-limiter="true">
-      <p class="title {{ title_size }} mb--4" data-clamp="{{ title_clamp }}">{{ title }}</p>
-      {% if object_class and object_class != "" %}
-        <p class="text--small mb--4">Object Class: <span class="object-class">{{ object_class }}</span></p>
-      {% endif %}
-      {% if show_procedures != 'false' and procedures and procedures != "" %}<p><strong>Special Containment Procedures:</strong> {{ procedures | newline_to_br }}</p>{% endif %}{% if description and description != "" %}<p><strong>Description:</strong> {{ description | newline_to_br }}</p>{% endif %}
-    </div>
+  <div class="content content--left text--left" data-content-limiter="true">
+    <p class="title {{ title_size }} mb--4" data-clamp="{{ title_clamp }}">{{ title }}</p>
+    {% if object_class and object_class != "" %}
+      <p class="text--small mb--4">Object Class: <span class="object-class">{{ object_class }}</span></p>
+    {% endif %}
+    {% if show_procedures != 'false' and procedures and procedures != "" %}<p><strong>Special Containment Procedures:</strong> {{ procedures | replace: "\n\n\n\n\n", "\n\n" | replace: "\n\n\n\n", "\n\n" | replace: "\n\n\n", "\n\n" | newline_to_br }}</p>{% endif %}{% if description and description != "" %}
+    <p><strong>Description:</strong> {{ description | replace: "\n\n\n\n\n", "\n\n" | replace: "\n\n\n\n", "\n\n" | replace: "\n\n\n", "\n\n" | newline_to_br }}</p>{% endif %}
   </div>
 {% endtemplate %}
 
