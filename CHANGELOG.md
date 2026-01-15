@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-01-15
+
+### 🚀 Features
+
+- *(ui)* Update layout and content structure for SCP item
+
+### 🐛 Bug Fixes
+
+- *(settings)* Update version in plugin description
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Add initial changelog file
+- *(settings)* Add id field to settings configuration
+
 ## [0.1.0] - 2026-01-12
 
 ### 🚀 Features
