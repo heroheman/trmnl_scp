@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2026-02-06
+
+### 📚 Documentation
+
+- *(settings)* Update plugin version in description
+
+### 🎨 Styling
+
+- *(ui)* Improve layout and formatting of SCP item display
+
+### ⚙️ Miscellaneous Tasks
+
+- Changelog update
+
 ## [0.2.0] - 2026-02-06
 
 ### 🚀 Features
