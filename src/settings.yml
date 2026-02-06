@@ -12,7 +12,7 @@ custom_fields:
 - keyname: author_bio
   name: About This Plugin
   field_type: author_bio
-  description: v0.2.0 - Displays a random SCP Foundation item with object class, QRcode, description, and optional cover image.
+  description: v0.2.0 - Displays a random SCP Foundation item with object class, QRcode, description, and optional cover image. Category -> Entertainment.
   github_url: https://github.com/heroheman/trmnl_scp
   email_address: moin@flore.nz
 - keyname: min
