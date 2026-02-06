@@ -59,7 +59,8 @@
         show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures,
         procedures: procedures_extracted,
         description: description_extracted,
-        image: first_image
+        image: first_image,
+        qr_data: scp.url
       %}
     {% else %}
       {% render 'scp_item_no_image',
