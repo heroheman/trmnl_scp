@@ -32,6 +32,34 @@ function transform(input) {
   }
 
   /**
+   * Helper function to clean HTML while preserving paragraph breaks
+   * Similar to advanced_rss approach but converts paragraphs to double line breaks
+   */
+  const cleanHtml = (html) => {
+    if (!html) return '';
+    
+    // Convert paragraph endings to double newlines BEFORE removing tags
+    let cleaned = html
+      .replace(/<\/p>/gi, '\n\n')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/div>/gi, '\n');
+    
+    // Remove all HTML tags
+    cleaned = cleaned.replace(/<[^>]*>/g, ' ');
+    
+    // Normalize whitespace on each line but keep line breaks
+    cleaned = cleaned
+      .split('\n')
+      .map(line => line.replace(/\s+/g, ' ').trim())
+      .join('\n');
+    
+    // Limit consecutive newlines to 2
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    
+    return cleaned.trim();
+  };
+
+  /**
    * Extract procedures and description from raw_content
    */
   let procedures = '';
@@ -43,24 +71,15 @@ function transform(input) {
       let afterProcedures = input.raw_content.split('<strong>Special Containment Procedures:</strong>')[1];
       
       if (afterProcedures.includes('<strong>Description:</strong>')) {
-        procedures = afterProcedures.split('<strong>Description:</strong>')[0]
-          .replace(/<[^>]*>/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
+        procedures = cleanHtml(afterProcedures.split('<strong>Description:</strong>')[0]);
       } else if (afterProcedures.includes('<strong>Description</strong>')) {
-        procedures = afterProcedures.split('<strong>Description</strong>')[0]
-          .replace(/<[^>]*>/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
+        procedures = cleanHtml(afterProcedures.split('<strong>Description</strong>')[0]);
       }
     }
     
     // Extract description
     if (input.raw_content.includes('<strong>Description:</strong>')) {
-      description = input.raw_content.split('<strong>Description:</strong>')[1]
-        .replace(/<[^>]*>/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
+      description = cleanHtml(input.raw_content.split('<strong>Description:</strong>')[1]);
     }
   }
 

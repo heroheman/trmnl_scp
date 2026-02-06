@@ -3,40 +3,42 @@
   {% assign show_image = trmnl.plugin_settings.custom_fields_values.show_image %}
   {% assign has_image = false %}
   
-  {% comment %} Extract Object Class from tags {% endcomment %}
-  {% assign object_class_extracted = "" %}
-  {% assign known_classes = "safe,euclid,keter,thaumiel,apollyon,neutralized,decommissioned,pending,explained" | split: "," %}
-  {% for tag in scp.tags %}
-    {% if known_classes contains tag %}
-      {% assign object_class_extracted = tag %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-  {% if object_class_extracted == "" %}
+  {% comment %} Use preprocessed data from transform.js, with fallback to raw extraction {% endcomment %}
+  {% if scp.object_class and scp.object_class != "" %}
+    {% assign object_class_extracted = scp.object_class %}
+  {% else %}
+    {% comment %} Fallback: Extract from tags {% endcomment %}
+    {% assign object_class_extracted = "" %}
+    {% assign known_classes = "safe,euclid,keter,thaumiel,apollyon,neutralized,decommissioned,pending,explained" | split: "," %}
     {% for tag in scp.tags %}
-      {% if tag contains "esoteric-class" %}
-        {% assign object_class_extracted = "Esoteric" %}
+      {% if known_classes contains tag %}
+        {% assign object_class_extracted = tag %}
         {% break %}
       {% endif %}
     {% endfor %}
   {% endif %}
   
-  {% comment %} Extract Special Containment Procedures {% endcomment %}
-  {% assign procedures_extracted = "" %}
-  {% if scp.raw_content contains "<strong>Special Containment Procedures:</strong>" %}
-    {% assign after_procedures = scp.raw_content | split: "<strong>Special Containment Procedures:</strong>" | last %}
-    {% if after_procedures contains "<strong>Description:</strong>" %}
-      {% assign procedures_extracted = after_procedures | split: "<strong>Description:</strong>" | first | strip_html | strip %}
-    {% elsif after_procedures contains "<strong>Description</strong>" %}
-      {% assign procedures_extracted = after_procedures | split: "<strong>Description</strong>" | first | strip_html | strip %}
+  {% if scp.procedures and scp.procedures != "" %}
+    {% assign procedures_extracted = scp.procedures %}
+  {% else %}
+    {% comment %} Fallback: Extract from raw_content {% endcomment %}
+    {% assign procedures_extracted = "" %}
+    {% if scp.raw_content contains "<strong>Special Containment Procedures:</strong>" %}
+      {% assign after_procedures = scp.raw_content | split: "<strong>Special Containment Procedures:</strong>" | last %}
+      {% if after_procedures contains "<strong>Description:</strong>" %}
+        {% assign procedures_extracted = after_procedures | split: "<strong>Description:</strong>" | first | strip_html | strip %}
+      {% endif %}
     {% endif %}
   {% endif %}
   
-  {% comment %} Extract Description {% endcomment %}
-  {% assign description_extracted = "" %}
-  {% if scp.raw_content contains "<strong>Description:</strong>" %}
-    {% assign after_description = scp.raw_content | split: "<strong>Description:</strong>" | last | strip_html | strip %}
-    {% assign description_extracted = after_description %}
+  {% if scp.description and scp.description != "" %}
+    {% assign description_extracted = scp.description %}
+  {% else %}
+    {% comment %} Fallback: Extract from raw_content {% endcomment %}
+    {% assign description_extracted = "" %}
+    {% if scp.raw_content contains "<strong>Description:</strong>" %}
+      {% assign description_extracted = scp.raw_content | split: "<strong>Description:</strong>" | last | strip_html | strip %}
+    {% endif %}
   {% endif %}
   
   {% comment %} Check if SCP has images {% endcomment %}

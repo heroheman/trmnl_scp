@@ -78,11 +78,11 @@
         {% if show_procedures != 'false' and procedures and procedures != "" %}
           <p data-pixel-perfect="true">
             <strong>Special Containment Procedures:</strong> 
-            {{ procedures | replace: "\n\n\n\n\n", "\n" | replace: "\n\n\n\n", "\n" | replace: "\n\n\n", "\n" | newline_to_br }}</p>
+            {{ procedures | newline_to_br }}</p>
         {% endif %}
         {% if description and description != "" %}
           <p>
-            <strong>Description:</strong> {{ description |  strip_html | strip_newlines  }}</p>
+            <strong>Description:</strong> {{ description | newline_to_br }}</p>
         {% endif %}
       </div>
     </div>
@@ -96,8 +96,8 @@
     {% if object_class and object_class != "" %}
       <p class="text--small mb--4">Object Class: <span class="object-class">{{ object_class }}</span></p>
     {% endif %}
-    {% if show_procedures != 'false' and procedures and procedures != "" %}<p><strong>Special Containment Procedures:</strong> {{ procedures | replace: "\n\n\n\n\n", "\n\n" | replace: "\n\n\n\n", "\n\n" | replace: "\n\n\n", "\n\n" | newline_to_br }}</p>{% endif %}{% if description and description != "" %}
-    <p><strong>Description:</strong> {{ description | replace: "\n\n\n\n\n", "\n\n" | replace: "\n\n\n\n", "\n\n" | replace: "\n\n\n", "\n\n" | newline_to_br }}</p>{% endif %}
+    {% if show_procedures != 'false' and procedures and procedures != "" %}<p><strong>Special Containment Procedures:</strong> {{ procedures | newline_to_br }}</p>{% endif %}{% if description and description != "" %}
+    <p><strong>Description:</strong> {{ description | newline_to_br }}</p>{% endif %}
   </div>
 {% endtemplate %}
 
