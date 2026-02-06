@@ -1,6 +1,7 @@
 <div class="layout layout--col gap">
   {% assign scp = data %}
   {% assign show_image = trmnl.plugin_settings.custom_fields_values.show_image %}
+  {% assign show_qr = trmnl.plugin_settings.custom_fields_values.show_qr %}
   {% assign has_image = false %}
   
   {% comment %} Use preprocessed data from transform.js, with fallback {% endcomment %}
@@ -57,7 +58,9 @@
         procedures: procedures_extracted,
         description: description_extracted,
         image: first_image,
-        qr_data: scp.url
+        qr_data: scp.url,
+        show_qr: show_qr,
+        overlay_padding: '4px'
       %}
     {% else %}
       {% render 'scp_item_no_image',
@@ -73,8 +76,8 @@
   </div>
 </div>
 
-{% render 'scp_footer', 
+{% comment %} {% render 'scp_footer', 
   scp_number: scp.scp,
   object_class: object_class_extracted
-%}
+%} {% endcomment %}
 

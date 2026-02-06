@@ -53,5 +53,13 @@ custom_fields:
   - 'Yes': 'true'
   - 'No': 'false'
   default: 'false'
+- keyname: show_qr
+  field_type: select
+  name: Show QR Code
+  description: Toggle QR code display for the SCP link.
+  options:
+  - 'Yes': 'true'
+  - 'No': 'false'
+  default: 'true'
 name: SCP Foundation
 refresh_interval: 1440

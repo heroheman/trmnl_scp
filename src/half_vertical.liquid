@@ -1,6 +1,7 @@
 <div class="layout layout--col gap">
   {% assign scp = data %}
-  
+  {% assign show_qr = trmnl.plugin_settings.custom_fields_values.show_qr %}
+
   {% comment %} Use preprocessed data from transform.js, with fallback {% endcomment %}
   {% if scp.object_class and scp.object_class != "" %}
     {% assign object_class_extracted = scp.object_class %}
@@ -14,7 +15,7 @@
       {% endif %}
     {% endfor %}
   {% endif %}
-  
+
   {% if scp.procedures and scp.procedures != "" %}
     {% assign procedures_extracted = scp.procedures %}
   {% else %}
@@ -26,7 +27,7 @@
       {% endif %}
     {% endif %}
   {% endif %}
-  
+
   {% if scp.description and scp.description != "" %}
     {% assign description_extracted = scp.description %}
   {% else %}
@@ -35,22 +36,47 @@
       {% assign description_extracted = scp.raw_content | split: "<strong>Description:</strong>" | last | strip_html | strip %}
     {% endif %}
   {% endif %}
-  
-  <div class="content">
-    {% render 'scp_item_no_image',
-      title: scp.scp,
-      title_size: 'title--large',
-      title_clamp: '2',
-      object_class: object_class_extracted,
-      show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures,
-      procedures: procedures_extracted,
-      description: description_extracted
-    %}
+
+  <div class="content h--full">
+    {% assign has_image = false %}
+    {% if trmnl.plugin_settings.custom_fields_values.show_image != 'false' and scp.images and scp.images != empty %}
+      {% assign has_image = true %}
+    {% endif %}
+
+    {% if has_image %}
+      {% render 'scp_item_with_top_image'
+        , image: scp.images[0]
+        , image_height: '120px'
+        , title: scp.scp
+        , title_size: 'text--medium'
+        , object_class: object_class_extracted
+        , show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures
+        , procedures: procedures_extracted
+        , description: description_extracted
+        , qr_data: scp.url
+        , qr_size: 'small'
+        , qr_position: 'top-right'
+        , show_qr: show_qr
+      %}
+    {% else %}
+      {% render 'scp_item_no_image'
+        , title: scp.scp
+        , title_size: 'title--large'
+        , title_clamp: '2'
+        , object_class: object_class_extracted
+        , show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures
+        , procedures: procedures_extracted
+        , description: description_extracted
+        , qr_data: scp.url
+        , qr_position: 'top'
+        , qr_align: 'flex-start'
+        , show_qr: show_qr
+      %}
+    {% endif %}
   </div>
 </div>
 
-{% render 'scp_footer', 
-  scp_number: scp.scp,
-  object_class: object_class_extracted
-%}
-
+{% comment %} {% render 'scp_footer', 
+    scp_number: scp.scp,
+    object_class: object_class_extracted
+%} {% endcomment %}

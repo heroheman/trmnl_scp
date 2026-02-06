@@ -1,5 +1,6 @@
 <div class="layout layout--col gap">
   {% assign scp = data %}
+  {% assign show_qr = trmnl.plugin_settings.custom_fields_values.show_qr %}
   
   {% comment %} Use preprocessed data from transform.js, with fallback {% endcomment %}
   {% if scp.object_class and scp.object_class != "" %}
@@ -37,20 +38,29 @@
   {% endif %}
   
   <div class="content">
-    {% render 'scp_item_no_image',
-      title: scp.scp,
-      title_size: 'title--medium',
-      title_clamp: '1',
-      object_class: object_class_extracted,
-      show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures,
-      procedures: procedures_extracted,
-      description: description_extracted
-    %}
+    <div class="grid grid--cols-4 gap">
+      <div class="col--span-1">
+        {% if show_qr != 'false' and scp.url and scp.url != "" %}
+          <img class="scp-qr" style="width: 80px; height: 80px;" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ scp.url | url_encode }}" alt="QR code">
+        {% endif %}
+      </div>
+      <div class="col--span-3">
+        {% render 'scp_item_no_image',
+          title: scp.scp,
+          title_size: 'title--medium',
+          title_clamp: '1',
+          show_procedures: trmnl.plugin_settings.custom_fields_values.show_procedures,
+          procedures: procedures_extracted,
+          description: description_extracted,
+          show_qr: 'false'
+        %}
+      </div>
+    </div>
   </div>
 </div>
 
-{% render 'scp_footer', 
+{% comment %} {% render 'scp_footer', 
   scp_number: scp.scp,
   object_class: object_class_extracted
-%}
+%} {% endcomment %}
 
