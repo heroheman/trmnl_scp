@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2026-02-06
+
+### 🚀 Features
+
+- *(ui)* Enhance SCP item display with new layout
+- *(ui)* Add QR code support to SCP item display
+- *(ui)* Add QR code display options to SCP items
+
+### 🐛 Bug Fixes
+
+- *(ui)* Remove unnecessary comment tags in conditional rendering
+
+### 🚜 Refactor
+
+- *(ui)* Improve object class and procedures extraction
+
+### 🎨 Styling
+
+- *(ui)* Improve layout of SCP item display
+
+### ⚙️ Miscellaneous Tasks
+
+- Changelog update
+
 ## [0.1.1] - 2026-01-15
 
 ### 🚀 Features
