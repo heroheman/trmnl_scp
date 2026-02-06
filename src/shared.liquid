@@ -76,13 +76,13 @@
     <div class="col--span-3 h--full">
       <div class="content content--left text--left h--full" data-content-limiter="true">
         {% if show_procedures != 'false' and procedures and procedures != "" %}
-          <p data-pixel-perfect="true">
-            <strong>Special Containment Procedures:</strong> 
-            {{ procedures | newline_to_br }}</p>
+          <div class="mb--2">
+            <span class="label label--small">Special Containment Procedures</span>
+            <span class="description">{{ procedures | newline_to_br }}</span>
+          </div>
         {% endif %}
         {% if description and description != "" %}
-          <p>
-            <strong>Description:</strong> {{ description | newline_to_br }}</p>
+          <span class="description">{{ description | newline_to_br }}</span>
         {% endif %}
       </div>
     </div>
@@ -92,12 +92,19 @@
 {% comment %} === SCP ITEM TEMPLATE WITHOUT IMAGE === {% endcomment %}
 {% template scp_item_no_image %}
   <div class="content content--left text--left" data-content-limiter="true">
-    <p class="title {{ title_size }} mb--4" data-clamp="{{ title_clamp }}">{{ title }}</p>
+    <span class="title {{ title_size }} mb--4" data-clamp="{{ title_clamp }}">{{ title }}</span>
     {% if object_class and object_class != "" %}
-      <p class="text--small mb--4">Object Class: <span class="object-class">{{ object_class }}</span></p>
+      <span class="label mb--4">Object Class: <span class="object-class">{{ object_class }}</span></span>
     {% endif %}
-    {% if show_procedures != 'false' and procedures and procedures != "" %}<p><strong>Special Containment Procedures:</strong> {{ procedures | newline_to_br }}</p>{% endif %}{% if description and description != "" %}
-    <p><strong>Description:</strong> {{ description | newline_to_br }}</p>{% endif %}
+    {% if show_procedures != 'false' and procedures and procedures != "" %}
+      <div class="mb--2">
+        <span class="label label--small">Special Containment Procedures</span>
+        <span class="description">{{ procedures | newline_to_br }}</span>
+      </div>
+    {% endif %}
+    {% if description and description != "" %}
+      <span class="description">{{ description | newline_to_br }}</span>
+    {% endif %}
   </div>
 {% endtemplate %}
 
