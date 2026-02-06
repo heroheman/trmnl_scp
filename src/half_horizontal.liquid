@@ -47,7 +47,7 @@
   {% endif %}
   
   <div class="content">
-    {% comment %} {% if show_image == 'true' and has_image %}
+    {% if show_image == 'true' and has_image %}
       {% render 'scp_item_with_image',
         title: scp.scp,
         title_size: 'title--medium',
@@ -58,7 +58,7 @@
         description: description_extracted,
         image: first_image
       %}
-    {% else %} {% endcomment %}
+    {% else %}
       {% render 'scp_item_no_image',
         title: scp.scp,
         title_size: 'title--large',
@@ -68,7 +68,7 @@
         procedures: procedures_extracted,
         description: description_extracted
       %}
-    {% comment %} {% endif %} {% endcomment %}
+    {% endif %}
   </div>
 </div>
 
