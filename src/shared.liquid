@@ -67,10 +67,12 @@
     <div class="col--span-2" style="position: relative;">
       <img class="scp-image image-dither image--cover h--full w--full" src="{{ image }}" alt="{{ title }}">
       <div style="position: absolute; top: 0; left: 0; padding: 8px;">
-        <p class="title {{ title_size }}" style="background-color: black; color: white; padding: 4px 8px; margin: 0 0 4px 0; display: inline-block;">{{ title }}</p>
-        {% if object_class and object_class != "" %}
-          <p class="text--small" style="background-color: black; color: white; padding: 4px 8px; margin: 0; display: inline-block;">Object Class: <span class="object-class">{{ object_class }}</span></p>
-        {% endif %}
+        <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+          <p class="title {{ title_size }}" style="background-color: black; color: white; padding: 4px 8px; margin: 0; display: inline-block;">{{ title }}</p>
+          {% if object_class and object_class != "" %}
+            <p class="text--small" style="background-color: black; color: white; padding: 4px 8px; margin: 0; display: inline-block;"><span class="object-class">{{ object_class }}</span></p>
+          {% endif %}
+        </div>
       </div>
     </div>
     <div class="col--span-3 h--full">
@@ -94,7 +96,7 @@
   <div class="content content--left text--left" data-content-limiter="true">
     <span class="title {{ title_size }} mb--4" data-clamp="{{ title_clamp }}">{{ title }}</span>
     {% if object_class and object_class != "" %}
-      <span class="label mb--4">Object Class: <span class="object-class">{{ object_class }}</span></span>
+      <span class="label mb--4"><span class="object-class">{{ object_class }}</span></span>
     {% endif %}
     {% if show_procedures != 'false' and procedures and procedures != "" %}
       <div class="mb--2">
@@ -111,7 +113,7 @@
 {% comment %} === FOOTER TEMPLATE === {% endcomment %}
 {% template scp_footer %}
   <div class="title_bar">
-    <span class="title">SCP FOUNDATION</span>
+    <span class="title">SCP Foundation</span>
     <span class="instance">
       {% if scp_number %}{{ scp_number }}{% else %}Random SCP{% endif %}
       {% if object_class and object_class != "" %} | {{ object_class | capitalize }}{% endif %}
